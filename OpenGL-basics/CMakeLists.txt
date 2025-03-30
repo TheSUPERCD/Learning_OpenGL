@@ -24,10 +24,9 @@ else()
   message(FATAL_ERROR "OpenGL library not found.")
 endif()
 
-find_package(glfw3 REQUIRED) # Modern GLFW3
+find_package(glfw3 REQUIRED)
 if(glfw3_FOUND)
   message(STATUS "GLFW3 library found: ${glfw3_LIBRARIES}")
-  include_directories(${glfw3_INCLUDE_DIR})
 else()
   message(FATAL_ERROR "GLFW3 library not found.")
 endif()
