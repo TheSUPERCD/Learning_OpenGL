@@ -138,7 +138,7 @@ int main (int argc, char *argv[]) {
     glUseProgram(shaderProgram);
     glBindVertexArray(vertexArrayObject);
     
-    // gave 6 vertexes to use (need 3 per triangle)
+    // gave 9 vertexes to use (need 3 per triangle)
     glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
     glfwSwapBuffers(window);
