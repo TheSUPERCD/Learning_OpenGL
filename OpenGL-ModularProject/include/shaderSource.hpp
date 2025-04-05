@@ -2,7 +2,7 @@
 #ifndef SHADER_SOURCE_HPP
 #define SHADER_SOURCE_HPP
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <string>
 #include <fstream>
 #include <cerrno>

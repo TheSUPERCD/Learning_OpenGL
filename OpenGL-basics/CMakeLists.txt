@@ -13,9 +13,9 @@ include_directories(BasicsOfOpenGL PRIVATE include)
 
 add_executable(basicWindow src/basicWindowCreation.cpp)
 add_executable(slowBlink src/slowBlinkWindow.cpp)
-add_executable(drawTriangle src/drawTriangle.cpp src/glad.c)
-add_executable(doubleTriangles src/doubleTriangles.cpp src/glad.c)
-add_executable(tripleTriangles src/tripleTriangles.cpp src/glad.c)
+add_executable(drawTriangle src/drawTriangle.cpp src/gl.c)
+add_executable(doubleTriangles src/doubleTriangles.cpp src/gl.c)
+add_executable(tripleTriangles src/tripleTriangles.cpp src/gl.c)
 
 find_package(OpenGL REQUIRED)
 if(OpenGL_FOUND)

@@ -2,7 +2,7 @@
 #ifndef VERTEX_ARRAY_OBJ_HPP
 #define VERTEX_ARRAY_OBJ_HPP
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <vertexBufferObject.hpp>
 
 class VertexArrayObject {

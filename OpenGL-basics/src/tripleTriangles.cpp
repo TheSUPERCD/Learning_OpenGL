@@ -1,5 +1,5 @@
 #include <iostream>
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <cmath>
 
@@ -59,9 +59,14 @@ int main (int argc, char *argv[]) {
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   
   // load the GLAD functions that need to be queried from the GPU driver at runtime
-  if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+  int OGL_version = gladLoadGL(glfwGetProcAddress);
+  if(OGL_version == 0){
     std::cerr << "Unable to initialize GLAD...\n";
     return -3;
+  } else {
+    std::cout << "GLAD initialized for OpenGL version-" 
+      << GLAD_VERSION_MAJOR(OGL_version) << "." 
+      << GLAD_VERSION_MINOR(OGL_version) << std::endl;
   }
   
   // define triangle vertices

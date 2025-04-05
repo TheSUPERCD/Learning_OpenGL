@@ -11,7 +11,7 @@ execute_process(
 
 include_directories(BasicsOfOpenGL PRIVATE include)
 
-file(GLOB SOURCES src/*.cpp src/glad.c)
+file(GLOB SOURCES src/*.cpp src/gl.c)
 add_definitions(-DRESOURCES_PATH="${CMAKE_SOURCE_DIR}/resources/")
 add_executable(main ${SOURCES})
 

@@ -2,7 +2,7 @@
 #ifndef ELEMENT_BUFFER_OBJ_HPP
 #define ELEMENT_BUFFER_OBJ_HPP
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 class ElementBufferObject {
 public:

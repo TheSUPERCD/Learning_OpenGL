@@ -2,7 +2,7 @@
 #ifndef VERTEX_BUFFER_OBJ_HPP
 #define VERTEX_BUFFER_OBJ_HPP
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 class VertexBufferObject {
 public:
