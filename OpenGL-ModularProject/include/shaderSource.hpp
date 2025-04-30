@@ -5,18 +5,19 @@
 #include <glad/gl.h>
 #include <string>
 #include <fstream>
-#include <cerrno>
+#include <stdexcept>
 
-#ifndef RESOURCES_PATH
-#define RESOURCES_PATH
+#ifndef RESOURCE_DIR
+#define RESOURCE_DIR
 #endif
 
 class Shader {
 public:
   GLuint ID;
-  Shader(const char *vertex_shader_file, const char *fragment_shader_file);
+  Shader(std::string vertex_shader_file, std::string fragment_shader_file);
   void activate();
   void deactivate();
+  void checkCompilationErrors(GLuint shader, std::string shader_type);
   ~Shader();
 private:
 

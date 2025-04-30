@@ -1,25 +1,30 @@
 #include <shaderSource.hpp>
 
 
-static std::string get_shader_source(const char *filename) {
-  std::ifstream in(filename, std::ios::binary);
-  if (in) {
-    std::string contents;
-    in.seekg(0, std::ios::end);
-    contents.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
-    in.read(&contents[0], contents.size());
-    in.close();
-    return contents;
+static const std::string get_shader_source(const std::string& source_path) {
+  std::ifstream glShaderFile(source_path, std::ios::binary | std::ios::in | std::ios::ate);
+  if(!glShaderFile.is_open()){
+    throw std::runtime_error(std::string("Unable to open shader source file: ") + source_path);
   }
-  throw(errno);
-  return nullptr;
+  
+  // enable exceptions
+  glShaderFile.exceptions(std::ios::failbit | std::ios::badbit);
+  
+  std::string file_content;
+  size_t file_size = glShaderFile.tellg();
+  file_content.resize(file_size);
+  glShaderFile.seekg(0, std::ios::beg);
+  if(!glShaderFile.read(&file_content[0], file_size)){
+    throw std::runtime_error(std::string("Unable to read shader source file: ") + source_path);
+  }
+
+  return file_content;
 }
 
 
-Shader::Shader(const char *vertex_shader_file, const char *fragment_shader_file){
-  std::string vertexShaderCode = get_shader_source(vertex_shader_file);
-  std::string fragmentShaderCode = get_shader_source(fragment_shader_file);
+Shader::Shader(std::string vertex_shader_file, std::string fragment_shader_file){
+  std::string vertexShaderCode = get_shader_source(RESOURCE_DIR + vertex_shader_file);
+  std::string fragmentShaderCode = get_shader_source(RESOURCE_DIR + fragment_shader_file);
 
   const char *vertexShaderSource = vertexShaderCode.c_str();
   const char *fragmentShaderSource = fragmentShaderCode.c_str();
@@ -27,17 +32,19 @@ Shader::Shader(const char *vertex_shader_file, const char *fragment_shader_file)
   GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
   glCompileShader(vertexShader);
-  
+  checkCompilationErrors(vertexShader, "VERTEX");
 
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
   glCompileShader(fragmentShader);
+  checkCompilationErrors(fragmentShader, "FRAGMENT");
 
   ID = glCreateProgram();
   glAttachShader(ID, vertexShader);
   glAttachShader(ID, fragmentShader);
 
   glLinkProgram(ID);
+  checkCompilationErrors(ID, "PROGRAM");
 
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
@@ -56,3 +63,29 @@ void Shader::deactivate(){
   glDeleteProgram(ID);
   return;
 }
+
+void Shader::checkCompilationErrors(GLuint shader, std::string shader_type){
+  GLint compilation_status;
+  char compilation_info[1024];
+  
+  if(shader_type != "PROGRAM") {
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compilation_status);
+    if(!compilation_status){
+      glGetShaderInfoLog(shader, 1024, nullptr, compilation_info);
+      throw std::runtime_error(compilation_info);
+    }
+  } else {
+    glGetProgramiv(shader, GL_LINK_STATUS, &compilation_status);
+    if(!compilation_status){
+      glGetShaderInfoLog(shader, 1024, nullptr, compilation_info);
+      throw std::runtime_error(compilation_info);
+    }
+  }
+
+  return;
+}
+
+
+
+
+

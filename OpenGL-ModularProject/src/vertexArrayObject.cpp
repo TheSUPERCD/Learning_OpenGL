@@ -8,11 +8,10 @@ VertexArrayObject::~VertexArrayObject() {
   glDeleteVertexArrays(1, &ID);
 }
 
-void VertexArrayObject::link_vertex_buffer(VertexBufferObject &vbo, GLuint layout){
+void VertexArrayObject::link_vertex_attrib(VertexBufferObject &vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void *offset){
   vbo.bind();
-  glVertexAttribPointer(layout, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+  glVertexAttribPointer(layout, numComponents, type, GL_FALSE, stride, offset);
   glEnableVertexAttribArray(layout);
-  vbo.unbind();
 }
 
 void VertexArrayObject::bind() {
